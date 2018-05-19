@@ -1,5 +1,10 @@
 package adnyre.maildemo.mail;
 
+import adnyre.maildemo.dto.SimpleMessage;
+
+import java.util.List;
+
 public interface MailService {
-    void sendSimpleMessage(String to, String subject, String text);
+    List<String> fetchEmail(long userId);
+    void sendSimpleMessage(SimpleMessage message);
 }
