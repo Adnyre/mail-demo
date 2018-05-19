@@ -1,8 +1,11 @@
 package adnyre.maildemo.model;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import java.util.Set;
 
+@Data
 @Entity
 public class Campaign {
 
@@ -26,37 +29,10 @@ public class Campaign {
     )
     private Set<Keyword> keywords;
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Set<Keyword> getKeywords() {
-        return keywords;
-    }
-
-    public void setKeywords(Set<Keyword> keywords) {
-        this.keywords = keywords;
-    }
+    @OneToOne(cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    @JoinColumn(name = "message_template_id")
+    private MessageTemplate messageTemplate;
 
     public void addKeyword(Keyword keyword) {
         keywords.add(keyword);

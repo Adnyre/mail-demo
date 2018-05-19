@@ -1,8 +1,11 @@
 package adnyre.maildemo.model;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import java.util.Set;
 
+@Data
 @Entity
 public class Keyword {
 
@@ -17,36 +20,4 @@ public class Keyword {
 
     @ManyToMany(mappedBy = "keywords")
     private Set<Addressee> addressees;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Set<Campaign> getCampaigns() {
-        return campaigns;
-    }
-
-    public void setCampaigns(Set<Campaign> campaigns) {
-        this.campaigns = campaigns;
-    }
-
-    public Set<Addressee> getAddressees() {
-        return addressees;
-    }
-
-    public void setAddressees(Set<Addressee> addressees) {
-        this.addressees = addressees;
-    }
 }

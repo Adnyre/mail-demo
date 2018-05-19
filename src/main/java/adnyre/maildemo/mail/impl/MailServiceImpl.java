@@ -1,17 +1,17 @@
 package adnyre.maildemo.mail.impl;
 
 import adnyre.maildemo.Exception.ServiceException;
-import adnyre.maildemo.dto.SimpleMessage;
 import adnyre.maildemo.mail.MailService;
+import adnyre.maildemo.model.Addressee;
+import adnyre.maildemo.model.MessageTemplate;
+import adnyre.maildemo.model.User;
+import adnyre.maildemo.util.Util;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.mail.search.AndTerm;
 import javax.mail.search.FlagTerm;
 import javax.mail.search.SearchTerm;
@@ -26,42 +26,20 @@ import static java.time.temporal.ChronoUnit.WEEKS;
 @Service
 public class MailServiceImpl implements MailService {
 
-    @Autowired
-    private JavaMailSender mailSender;
+    private static final Flags CUSTOM_FLAG = new Flags("maildemo");
+    private static final int SMTP_PORT = 587;
 
-    public static final Flags CUSTOM_FLAG = new Flags("maildemo");
-
-    // TODO remove
-    @Value("${mail.host}")
-    private String smtpHost;
-    @Value("${imap.host}")
-    private String imapHost;
-    @Value("${mail.port}")
-    private int port;
-    @Value("${mail.username}")
-    private String username;
-    @Value("${mail.password}")
-    private String pass;
-
-    public List<String> fetchEmail(long userId) {
-
-        //TODO get user entity
-
+    @Override
+    public List<String> checkEmail(User user) {
         try {
             List<String> addresses = new ArrayList<>();
 
             Properties props = new Properties();
             props.setProperty("mail.store.protocol", "imaps");
-
-            // set this session up to use SSL for IMAP connections
-            props.setProperty("mail.imap.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-            // don't fallback to normal IMAP connections on failure.
-            props.setProperty("mail.imap.socketFactory.fallback", "false");
-
             Session emailSession = Session.getDefaultInstance(props);
 
             Store emailStore = emailSession.getStore("imaps");
-            emailStore.connect(imapHost, username, pass);
+            emailStore.connect(user.getImapHost(), user.getEmail(), user.getPass());
 
             Folder emailFolder = emailStore.getFolder("INBOX");
             emailFolder.open(Folder.READ_WRITE);
@@ -94,10 +72,64 @@ public class MailServiceImpl implements MailService {
     }
 
     @Override
-    public void sendSimpleMessage(SimpleMessage message) {
-        log.debug("Sending message: {}", message);
-        SimpleMailMessage mailMessage = message.toSimpleMailMessage();
-        mailSender.send(mailMessage);
-        log.debug("Sent message successfully");
+    public void sendSingleMessage(User user, Addressee addressee, MessageTemplate template) {
+        Session emailSession = getSession(user);
+            try {
+                sendMessage(user, template, emailSession, addressee);
+            } catch (MessagingException exp) {
+                log.error("Failed to send message to: {}", addressee.getEmail());
+            }
+    }
+
+    @Override
+    public void sendMessages(User user, List<Addressee> addressees, MessageTemplate template) {
+        Session emailSession = getSession(user);
+        addressees.forEach(a -> {
+            try {
+                sendMessage(user, template, emailSession, a);
+            } catch (MessagingException exp) {
+                log.error("Failed to send message to: {}", a.getEmail());
+            }
+        });
+    }
+
+    private Session getSession(User user) {
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", user.getSmtpHost());
+        props.put("mail.smtp.port", SMTP_PORT);
+
+        return Session.getInstance(
+                props,
+                getAuthenticator(user.getEmail(), user.getPass())
+        );
+    }
+
+    private static Authenticator getAuthenticator(String username, String pass) {
+        return new Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, pass);
+            }
+        };
+    }
+
+    private void sendMessage(User user,
+                             MessageTemplate template,
+                             Session emailSession,
+                             Addressee addressee) throws MessagingException {
+
+        Message mimeMessage = new MimeMessage(emailSession);
+        mimeMessage.setFrom(new InternetAddress(user.getEmail()));
+        mimeMessage.setRecipients(
+                Message.RecipientType.TO,
+                InternetAddress.parse(addressee.getEmail())
+        );
+        mimeMessage.setSubject(template.getSubject());
+        String messageText = Util.getTextFromTemplate(template.getTemplate(), addressee);
+        mimeMessage.setText(messageText);
+
+        Transport.send(mimeMessage);
+        log.debug("Sent email successfully");
     }
 }
