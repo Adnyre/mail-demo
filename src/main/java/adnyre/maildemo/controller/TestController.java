@@ -4,60 +4,40 @@ import adnyre.maildemo.mail.MailService;
 import adnyre.maildemo.model.Addressee;
 import adnyre.maildemo.model.MessageTemplate;
 import adnyre.maildemo.model.User;
-import adnyre.maildemo.service.CampaignService;
+import adnyre.maildemo.business.CampaignManagementService;
+import adnyre.maildemo.service.AddresseeService;
+import adnyre.maildemo.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.PostConstruct;
-
+@Slf4j
 @Controller
 class TestController {
 
-    // TODO remove
-    @Value("${mail.host}")
-    private String smtpHost;
-    @Value("${imap.host}")
-    private String imapHost;
-    @Value("${mail.username}")
-    private String userEmail;
-    @Value("${mail.password}")
-    private String pass;
-    @Value("${mail.addressee}")
-    private String customerEmail;
-
-    private User user;
-
-    private Addressee addressee;
+    private static final long USER_ID = 1;
+    private static final long CUSTOMER_ID = 1;
 
     @Autowired
-    private CampaignService campaignService;
-
+    private CampaignManagementService campaignManagementService;
     @Autowired
     private MailService mailService;
-
-    @PostConstruct
-    public void init() {
-        user = new User();
-        user.setEmail(userEmail);
-        user.setImapHost(imapHost);
-        user.setSmtpHost(smtpHost);
-        user.setPass(pass);
-
-        addressee = new Addressee();
-        addressee.setEmail(customerEmail);
-    }
+    @Autowired
+    private AddresseeService addresseeService;
+    @Autowired
+    private UserService userService;
 
     @PostMapping("/send-all")
     @ResponseBody
     public void sendToAll(@RequestParam String campaign) {
-        campaignService.sendAll(campaign);
+        campaignManagementService.sendAll(campaign);
     }
 
     @GetMapping("/receive")
     @ResponseBody
     public void receive() {
+        User user = userService.get(USER_ID);
         mailService.checkEmail(user);
     }
 
@@ -71,6 +51,8 @@ class TestController {
                         "Please, disregard this message.\n" +
                         "Best wishes, maildemo app"
         );
+        User user = userService.get(USER_ID);
+        Addressee addressee = addresseeService.get(CUSTOMER_ID);
         mailService.sendSingleMessage(user, addressee, template);
     }
 }

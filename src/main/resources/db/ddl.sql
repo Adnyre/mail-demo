@@ -37,9 +37,9 @@ CREATE TABLE addressee (
 );
 
 CREATE TABLE addressee_keyword (
-  addresse_id INTEGER,
+  addressee_id INTEGER,
   keyword_id INTEGER,
-  FOREIGN KEY (addresse_id) REFERENCES addressee(id),
+  FOREIGN KEY (addressee_id) REFERENCES addressee(id),
   FOREIGN KEY (keyword_id) REFERENCES keyword(id)
 );
 
