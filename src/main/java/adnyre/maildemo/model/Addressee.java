@@ -9,10 +9,20 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import static adnyre.maildemo.model.Addressee.SELECT_ADDRESSEES_FOR_CAMPAIGN;
+
 @Getter
 @Setter
 @Entity
+@NamedQueries({
+        @NamedQuery(name = SELECT_ADDRESSEES_FOR_CAMPAIGN,
+                query = "SELECT a FROM Addressee a INNER JOIN a.keywords ak" +
+                        " WHERE ak.name IN (SELECT ck.name FROM Campaign c1 INNER JOIN c1.keywords ck WHERE c1.id = :id)" +
+                        " AND a.id NOT IN (SELECT ca.id FROM Campaign c2 INNER JOIN c2.addressees ca WHERE c2.id = :id)")
+})
 public class Addressee implements Serializable{
+
+    public static final String SELECT_ADDRESSEES_FOR_CAMPAIGN = "selectAddresseesForCampaign";
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)

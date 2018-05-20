@@ -10,7 +10,7 @@ public interface MailService {
 
     List<String> checkEmail(User user);
 
-    void sendSingleMessage(User user, Addressee addressee, MessageTemplate template);
+    boolean sendSingleMessage(User user, Addressee addressee, MessageTemplate template);
 
     void sendMessages(User user, List<Addressee> addressees, MessageTemplate template);
 }

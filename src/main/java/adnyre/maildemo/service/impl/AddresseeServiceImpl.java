@@ -69,4 +69,10 @@ public class AddresseeServiceImpl implements AddresseeService {
     public void delete(long id) {
         addresseeDao.delete(id);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Addressee> selectAddresseesForCampaign(long campaignId) {
+        return addresseeDao.selectAddresseesForCampaign(campaignId);
+    }
 }

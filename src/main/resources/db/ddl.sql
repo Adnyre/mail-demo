@@ -49,3 +49,17 @@ CREATE TABLE campaign_keyword (
   FOREIGN KEY (campaign_id) REFERENCES campaign(id),
   FOREIGN KEY (keyword_id) REFERENCES keyword(id)
 );
+
+CREATE TABLE campaign_addressee (
+  campaign_id INTEGER,
+  addressee_id INTEGER,
+  FOREIGN KEY (campaign_id) REFERENCES campaign(id),
+  FOREIGN KEY (addressee_id) REFERENCES addressee(id)
+);
+
+CREATE TABLE user_addressee (
+  user_id INTEGER,
+  addressee_id INTEGER,
+  FOREIGN KEY (user_id) REFERENCES user(id),
+  FOREIGN KEY (addressee_id) REFERENCES addressee(id)
+);

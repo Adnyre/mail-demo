@@ -1,7 +1,5 @@
 package adnyre.maildemo.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,19 +19,23 @@ public class Campaign implements Serializable {
 
     private String name;
 
-    @JsonManagedReference
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    @JsonBackReference
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE},
-            fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "campaign_keyword",
             joinColumns = @JoinColumn(name = "campaign_id"),
             inverseJoinColumns = @JoinColumn(name = "keyword_id")
     )
     private Set<Keyword> keywords = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(name = "campaign_addressee",
+            joinColumns = @JoinColumn(name = "campaign_id"),
+            inverseJoinColumns = @JoinColumn(name = "addressee_id")
+    )
+    private Set<Addressee> addressees = new HashSet<>();
 
     @OneToOne(cascade = CascadeType.REMOVE,
             orphanRemoval = true)

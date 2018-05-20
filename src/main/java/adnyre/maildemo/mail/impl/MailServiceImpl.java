@@ -72,13 +72,15 @@ public class MailServiceImpl implements MailService {
     }
 
     @Override
-    public void sendSingleMessage(User user, Addressee addressee, MessageTemplate template) {
+    public boolean sendSingleMessage(User user, Addressee addressee, MessageTemplate template) {
         Session emailSession = getSession(user);
-            try {
-                sendMessage(user, template, emailSession, addressee);
-            } catch (MessagingException exp) {
-                log.error("Failed to send message to: {}", addressee.getEmail());
-            }
+        try {
+            sendMessage(user, template, emailSession, addressee);
+            return true;
+        } catch (MessagingException exp) {
+            log.error("Failed to send message to: {}", addressee.getEmail());
+            return false;
+        }
     }
 
     @Override

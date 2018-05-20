@@ -1,14 +1,14 @@
 package adnyre.maildemo.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -23,14 +23,12 @@ public class User implements Serializable {
 
     private String email;
 
-    @JsonIgnore
     private String pass;
 
     private String smtpHost;
 
     private String imapHost;
 
-    @JsonBackReference
     @OneToMany(
             mappedBy = "user",
             cascade = CascadeType.ALL,
@@ -38,6 +36,13 @@ public class User implements Serializable {
             fetch = FetchType.EAGER
     )
     private List<Campaign> campaigns = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(name = "user_addressee",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "addressee_id")
+    )
+    private Set<Addressee> addressees = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {

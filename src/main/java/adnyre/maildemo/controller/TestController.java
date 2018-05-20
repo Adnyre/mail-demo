@@ -1,5 +1,7 @@
 package adnyre.maildemo.controller;
 
+import adnyre.maildemo.dao.AddresseeDao;
+import adnyre.maildemo.dto.AddresseeDto;
 import adnyre.maildemo.mail.MailService;
 import adnyre.maildemo.model.Addressee;
 import adnyre.maildemo.model.MessageTemplate;
@@ -11,6 +13,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Controller
@@ -28,10 +33,23 @@ class TestController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private AddresseeDao addresseeDao;
+
+    @GetMapping("/addresses")
+    @ResponseBody
+    public List<AddresseeDto> getAddressesForCampaign(@RequestParam long campaignId) {
+        List<Addressee> addressees = addresseeDao.selectAddresseesForCampaign(campaignId);
+        log.debug("Found {} addresses", addressees.size());
+        return addressees.stream()
+                .map(AddresseeDto::fromEntity)
+                .collect(Collectors.toList());
+    }
+
     @PostMapping("/send-all")
     @ResponseBody
-    public void sendToAll(@RequestParam String campaign) {
-        campaignManagementService.sendAll(campaign);
+    public void sendToAll(@RequestParam long campaignId) {
+        campaignManagementService.sendAll(campaignId);
     }
 
     @GetMapping("/receive")
