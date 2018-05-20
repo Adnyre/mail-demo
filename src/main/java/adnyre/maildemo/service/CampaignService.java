@@ -15,6 +15,8 @@ public interface CampaignService {
 
     void delete(long id);
 
+    MessageTemplate getMessageTemplate(long campaignId);
+
     MessageTemplate saveTemplate(long campaignId, MessageTemplateDto dto);
 
     void removeTemplate(long campaignId);

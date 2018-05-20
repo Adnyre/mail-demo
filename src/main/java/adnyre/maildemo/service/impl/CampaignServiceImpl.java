@@ -75,6 +75,13 @@ public class CampaignServiceImpl implements CampaignService {
         campaignDao.delete(id);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public MessageTemplate getMessageTemplate(long campaignId) {
+        Campaign campaign = campaignDao.findOne(campaignId);
+        Assert.notNull(campaign, "Can't find campaign by id: " + campaignId);
+        return campaign.getMessageTemplate();
+    }
 
     @Override
     @Transactional

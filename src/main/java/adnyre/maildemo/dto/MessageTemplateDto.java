@@ -12,7 +12,7 @@ public class MessageTemplateDto {
 
     private String template;
 
-    public MessageTemplateDto fromEntity(MessageTemplate entity) {
+    public static MessageTemplateDto fromEntity(MessageTemplate entity) {
         return MessageTemplateDto.builder()
                 .subject(entity.getSubject())
                 .template(entity.getTemplate())
