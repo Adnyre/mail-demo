@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <user id="1" name="Bob Brown" email="bob@example.com" pass="securepass"
+          smtp_host="smtp.example.com" imap_host="imap.example.com"/>
+    <user id="2" name="Steve Sanchez" email="steve@example.com" pass="securepass"
+          smtp_host="smtp.example.com" imap_host="imap.example.com"/>
+    <user id="3" name="Chris Campbell" email="chris@example.com" pass="securepass"
+          smtp_host="smtp.example.com" imap_host="imap.example.com"/>
+
+    <message_template id="1" subject="birding" template="Something about birding..."/>
+    <message_template id="2" subject="anime" template="Something about anime..."/>
+    <message_template id="3" subject="knitting" template="Something about knitting..."/>
+    <message_template id="4" subject="politics" template="Something about politics..."/>
+    <message_template id="5" subject="sport" template="Something about sport..."/>
+    <message_template id="6" subject="skiing" template="Something about skiing..."/>
+
+    <campaign id="1" name="Birding campaign" user_id="1" message_template_id="1"/>
+    <campaign id="2" name="Anime campaign" user_id="1" message_template_id="2"/>
+    <campaign id="3" name="Knitting campaign" user_id="2" message_template_id="3"/>
+    <campaign id="4" name="Politics campaign" user_id="2" message_template_id="4"/>
+    <campaign id="5" name="Sport campaign" user_id="2" message_template_id="5"/>
+    <campaign id="6" name="Skiing campaign" user_id="3" message_template_id="6"/>
+
+    <addressee id="1" first_name="Tom" last_name="Turner" email="tom@example.com"/>
+    <addressee id="2" first_name="John" last_name="Jackson" email="john@example.com"/>
+    <addressee id="3" first_name="Patricia" last_name="Perez" email="patricia@example.com"/>
+    <addressee id="4" first_name="Gabriela" last_name="Gutierrez" email="gabriela@example.com"/>
+    <addressee id="5" first_name="Miguel" last_name="Morales" email="miguel@example.com"/>
+
+    <keyword id="1" name="birding"/>
+    <keyword id="2" name="football"/>
+    <keyword id="3" name="sport"/>
+    <keyword id="4" name="elections"/>
+    <keyword id="5" name="politics"/>
+    <keyword id="6" name="anime"/>
+    <keyword id="7" name="knitting"/>
+    <keyword id="8" name="skiing"/>
+    <keyword id="9" name="swimming"/>
+    <keyword id="10" name="hunting"/>
+
+    <campaign_keyword campaign_id="1" keyword_id="1"/>
+    <campaign_keyword campaign_id="2" keyword_id="6"/>
+    <campaign_keyword campaign_id="3" keyword_id="7"/>
+    <campaign_keyword campaign_id="4" keyword_id="4"/>
+    <campaign_keyword campaign_id="4" keyword_id="5"/>
+    <campaign_keyword campaign_id="5" keyword_id="2"/>
+    <campaign_keyword campaign_id="5" keyword_id="3"/>
+    <campaign_keyword campaign_id="5" keyword_id="8"/>
+    <campaign_keyword campaign_id="5" keyword_id="9"/>
+    <campaign_keyword campaign_id="6" keyword_id="8"/>
+
+    <addressee_keyword addressee_id="1" keyword_id="2"/>
+    <addressee_keyword addressee_id="1" keyword_id="5"/>
+    <addressee_keyword addressee_id="2" keyword_id="6"/>
+    <addressee_keyword addressee_id="2" keyword_id="1"/>
+    <addressee_keyword addressee_id="3" keyword_id="7"/>
+    <addressee_keyword addressee_id="4" keyword_id="8"/>
+    <addressee_keyword addressee_id="4" keyword_id="9"/>
+    <addressee_keyword addressee_id="5" keyword_id="10"/>
+
+    <campaign_addressee campaign_id="1" addressee_id="2"/>
+    <campaign_addressee campaign_id="3" addressee_id="3"/>
+    <campaign_addressee campaign_id="4" addressee_id="1"/>
+    <campaign_addressee campaign_id="5" addressee_id="4"/>
+
+    <user_addressee user_id="1" addressee_id="2"/>
+    <user_addressee user_id="2" addressee_id="1"/>
+</dataset>

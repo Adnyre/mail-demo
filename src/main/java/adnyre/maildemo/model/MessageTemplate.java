@@ -2,6 +2,7 @@ package adnyre.maildemo.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,6 +20,7 @@ public class MessageTemplate implements Serializable {
 
     private String subject;
 
+    @Type(type="text")
     private String template;
 
     @Override
