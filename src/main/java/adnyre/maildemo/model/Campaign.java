@@ -8,10 +8,22 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import static adnyre.maildemo.model.Campaign.GET_CAMPAIGN_STATS;
+import static adnyre.maildemo.model.Campaign.GET_CAMPAIGN_STATS_BY_USER_ID;
+
 @Getter
 @Setter
 @Entity
+@NamedQueries({
+        @NamedQuery(name = GET_CAMPAIGN_STATS,
+                query = ""),
+        @NamedQuery(name = GET_CAMPAIGN_STATS_BY_USER_ID,
+                query = ""),
+})
 public class Campaign implements Serializable {
+
+    public static final String GET_CAMPAIGN_STATS = "getCampaignStats";
+    public static final String GET_CAMPAIGN_STATS_BY_USER_ID = "getCampaignStatsByUserId";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

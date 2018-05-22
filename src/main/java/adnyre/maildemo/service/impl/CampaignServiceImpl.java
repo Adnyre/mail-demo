@@ -3,6 +3,7 @@ package adnyre.maildemo.service.impl;
 import adnyre.maildemo.dao.CampaignDao;
 import adnyre.maildemo.dao.UserDao;
 import adnyre.maildemo.dto.CampaignDto;
+import adnyre.maildemo.dto.CampaignStatsView;
 import adnyre.maildemo.dto.MessageTemplateDto;
 import adnyre.maildemo.model.Campaign;
 import adnyre.maildemo.model.Keyword;
@@ -103,6 +104,18 @@ public class CampaignServiceImpl implements CampaignService {
         Campaign campaign = campaignDao.findOne(campaignId);
         Assert.notNull(campaign, "Can't find campaign by id: " + campaignId);
         campaign.setMessageTemplate(null);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<CampaignStatsView> getAllCampaignStats() {
+        return campaignDao.getCampaignStats();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<CampaignStatsView> getCampaignStatsByUserId(long userId) {
+        return campaignDao.getCampaignStatsByUserId(userId);
     }
 
 }

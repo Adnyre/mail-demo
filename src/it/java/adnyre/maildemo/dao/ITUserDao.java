@@ -1,7 +1,6 @@
-package adnyre.maildemo;
+package adnyre.maildemo.dao;
 
 import adnyre.maildemo.config.TestDbConfig;
-import adnyre.maildemo.dao.UserDao;
 import adnyre.maildemo.model.User;
 import com.github.springtestdbunit.TransactionDbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;

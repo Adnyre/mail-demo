@@ -1,6 +1,7 @@
 package adnyre.maildemo.controller;
 
 import adnyre.maildemo.dto.CampaignDto;
+import adnyre.maildemo.dto.CampaignStatsView;
 import adnyre.maildemo.dto.MessageTemplateDto;
 import adnyre.maildemo.model.Campaign;
 import adnyre.maildemo.model.MessageTemplate;
@@ -9,6 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -69,5 +72,19 @@ public class CampaignController {
     public void deleteMessageTemplate(@PathVariable long id) {
         campaignService.removeTemplate(id);
         log.debug("Deleted message template for campaign#{} successfully", id);
+    }
+
+    @GetMapping("/stats")
+    @ResponseBody
+    public List<CampaignStatsView> getAllCampaignStats(@RequestParam(required = false) Long userId) {
+        List<CampaignStatsView> campaignStats;
+        if (userId == null) {
+            campaignStats = campaignService.getAllCampaignStats();
+            log.debug("Retrieved campaign stats for all users");
+        } else {
+            campaignStats = campaignService.getCampaignStatsByUserId(userId);
+            log.debug("Retrieved campaign stats for user#{}", userId);
+        }
+        return campaignStats;
     }
 }

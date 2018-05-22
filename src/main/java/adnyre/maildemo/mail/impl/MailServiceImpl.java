@@ -1,6 +1,6 @@
 package adnyre.maildemo.mail.impl;
 
-import adnyre.maildemo.Exception.ServiceException;
+import adnyre.maildemo.exception.ServiceException;
 import adnyre.maildemo.mail.MailService;
 import adnyre.maildemo.model.Addressee;
 import adnyre.maildemo.model.MessageTemplate;

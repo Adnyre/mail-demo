@@ -1,4 +1,4 @@
-package adnyre.maildemo.Exception;
+package adnyre.maildemo.exception;
 
 public class ServiceException extends RuntimeException {
 
