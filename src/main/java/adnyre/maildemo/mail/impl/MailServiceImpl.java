@@ -28,11 +28,15 @@ public class MailServiceImpl implements MailService {
 
     private static final Flags CUSTOM_FLAG = new Flags("maildemo");
     private int smtpPort = 587;
+    private int imapPort = 993;
+    private boolean secure = true;
 
     public MailServiceImpl() {}
 
-    public MailServiceImpl(int smtpPort) {
+    public MailServiceImpl(int smtpPort, int imapPort, boolean secure) {
         this.smtpPort = smtpPort;
+        this.imapPort = imapPort;
+        this.secure = secure;
     }
 
     @Override
@@ -41,11 +45,12 @@ public class MailServiceImpl implements MailService {
             List<String> addresses = new ArrayList<>();
 
             Properties props = new Properties();
-            props.setProperty("mail.store.protocol", "imaps");
+            String storeProtocol = secure ? "imaps" : "imap";
+            props.setProperty("mail.store.protocol", storeProtocol);
             Session emailSession = Session.getDefaultInstance(props);
 
-            Store emailStore = emailSession.getStore("imaps");
-            emailStore.connect(user.getImapHost(), user.getEmail(), user.getPass());
+            Store emailStore = emailSession.getStore(storeProtocol);
+            emailStore.connect(user.getImapHost(), imapPort, user.getEmail(), user.getPass());
 
             Folder emailFolder = emailStore.getFolder("INBOX");
             emailFolder.open(Folder.READ_WRITE);
