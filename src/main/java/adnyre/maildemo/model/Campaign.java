@@ -16,9 +16,17 @@ import static adnyre.maildemo.model.Campaign.GET_CAMPAIGN_STATS_BY_USER_ID;
 @Entity
 @NamedQueries({
         @NamedQuery(name = GET_CAMPAIGN_STATS,
-                query = ""),
+                query = "SELECT new adnyre.maildemo.dto.CampaignStatsView(c.id, c.name," +
+                        " u.name, count(distinct ca.id), count(distinct ka.id))" +
+                        " FROM Campaign c INNER JOIN c.user u LEFT JOIN c.keywords k" +
+                        " LEFT JOIN c.addressees ca LEFT JOIN k.addressees ka" +
+                        " GROUP BY c.id, c.name, u.id, u.name"),
         @NamedQuery(name = GET_CAMPAIGN_STATS_BY_USER_ID,
-                query = ""),
+                query = "SELECT new adnyre.maildemo.dto.CampaignStatsView(c.id, c.name," +
+                        " u.name, count(distinct ca.id), count(distinct ka.id))" +
+                        " FROM Campaign c INNER JOIN c.user u LEFT JOIN c.keywords k" +
+                        " LEFT JOIN c.addressees ca LEFT JOIN k.addressees ka" +
+                        " WHERE u.id = :userId GROUP BY c.id, c.name, u.name"),
 })
 public class Campaign implements Serializable {
 

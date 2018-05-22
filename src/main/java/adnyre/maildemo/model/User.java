@@ -17,7 +17,8 @@ import static adnyre.maildemo.model.User.GET_USER_STATS;
 @Entity
 @NamedQueries({
         @NamedQuery(name = GET_USER_STATS,
-                query = "")
+                query = "SELECT new adnyre.maildemo.dto.UserStatsView(0L, '', '', 0L, 0L, 0L, 0L)" +
+                        " FROM User u WHERE u.id = 1") // TODO implement
 })
 public class User implements Serializable {
 

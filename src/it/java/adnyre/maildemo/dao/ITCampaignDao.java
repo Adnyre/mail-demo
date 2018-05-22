@@ -98,7 +98,7 @@ public class ITCampaignDao {
         assertTrue(campaignStats5.getCampaignName().equals("Sport campaign")
                 && campaignStats5.getUserName().equals("Steve Sanchez")
                 && campaignStats5.getSentEmails() == 1
-                && campaignStats5.getPotentialAddressees() == 3
+                && campaignStats5.getPotentialAddressees() == 2
         );
 
         CampaignStatsView campaignStats6 = campaignIdToStatsViewMap.get(6L);
