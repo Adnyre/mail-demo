@@ -27,7 +27,13 @@ import static java.time.temporal.ChronoUnit.WEEKS;
 public class MailServiceImpl implements MailService {
 
     private static final Flags CUSTOM_FLAG = new Flags("maildemo");
-    private static final int SMTP_PORT = 587;
+    private int smtpPort = 587;
+
+    public MailServiceImpl() {}
+
+    public MailServiceImpl(int smtpPort) {
+        this.smtpPort = smtpPort;
+    }
 
     @Override
     public List<String> checkEmail(User user) {
@@ -100,7 +106,7 @@ public class MailServiceImpl implements MailService {
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.host", user.getSmtpHost());
-        props.put("mail.smtp.port", SMTP_PORT);
+        props.put("mail.smtp.port", smtpPort);
 
         return Session.getInstance(
                 props,
