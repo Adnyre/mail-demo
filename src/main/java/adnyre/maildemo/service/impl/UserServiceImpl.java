@@ -2,6 +2,7 @@ package adnyre.maildemo.service.impl;
 
 import adnyre.maildemo.dao.UserDao;
 import adnyre.maildemo.dto.UserDto;
+import adnyre.maildemo.dto.UserStatsView;
 import adnyre.maildemo.model.User;
 import adnyre.maildemo.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -10,9 +11,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.util.List;
+
 @Slf4j
 @Service
 public class UserServiceImpl implements UserService {
+
     @Autowired
     private UserDao userDao;
 
@@ -45,6 +49,12 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void delete(long id) {
         userDao.delete(id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<UserStatsView> getAllUserStats() {
+        return userDao.getAllUserStats();
     }
 
     private void updateEntity(UserDto dto, User entity) {

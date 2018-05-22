@@ -10,10 +10,18 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static adnyre.maildemo.model.User.GET_USER_STATS;
+
 @Getter
 @Setter
 @Entity
+@NamedQueries({
+        @NamedQuery(name = GET_USER_STATS,
+                query = "")
+})
 public class User implements Serializable {
+
+    public static final String GET_USER_STATS = "getUserStats";
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)

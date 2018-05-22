@@ -2,7 +2,9 @@ package adnyre.maildemo.dao.impl;
 
 import adnyre.maildemo.dao.CustomCampaignDao;
 import adnyre.maildemo.dto.CampaignStatsView;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -11,6 +13,8 @@ import java.util.List;
 import static adnyre.maildemo.model.Campaign.GET_CAMPAIGN_STATS;
 import static adnyre.maildemo.model.Campaign.GET_CAMPAIGN_STATS_BY_USER_ID;
 
+@Slf4j
+@Repository
 public class CampaignDaoImpl implements CustomCampaignDao {
 
     @Autowired
