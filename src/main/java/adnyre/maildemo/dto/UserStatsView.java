@@ -1,18 +1,18 @@
 package adnyre.maildemo.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserStatsView {
     private long userId;
     private String userName;
     private String email;
+    // number of campaigns
+    private long campaigns;
     // number of emails sent by this user in all campaigns
     private long sentEmails;
     // number of emails that can be sent to potentially interested people

@@ -58,6 +58,7 @@ public class ITUserDao {
         assertNotNull(userStats1);
         assertTrue(userStats1.getUserName().equals("Bob Brown")
                 && userStats1.getEmail().equals("bob@example.com")
+                && userStats1.getCampaigns() == 2
                 && userStats1.getSentEmails() == 1
                 && userStats1.getPotentialEmails() == 2
                 && userStats1.getResponses() == 1
@@ -67,6 +68,7 @@ public class ITUserDao {
         assertNotNull(userStats2);
         assertTrue(userStats2.getUserName().equals("Steve Sanchez")
                 && userStats2.getEmail().equals("steve@example.com")
+                && userStats2.getCampaigns() == 3
                 && userStats2.getSentEmails() == 3
                 && userStats2.getPotentialEmails() == 4
                 && userStats2.getResponses() == 1
@@ -76,6 +78,7 @@ public class ITUserDao {
         assertNotNull(userStats3);
         assertTrue(userStats3.getUserName().equals("Chris Campbell")
                 && userStats3.getEmail().equals("chris@example.com")
+                && userStats3.getCampaigns() == 1
                 && userStats3.getSentEmails() == 0
                 && userStats3.getPotentialEmails() == 1
                 && userStats3.getResponses() == 0
