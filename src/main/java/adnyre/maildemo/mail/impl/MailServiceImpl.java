@@ -84,8 +84,8 @@ public class MailServiceImpl implements MailService {
 
     @Override
     public boolean sendSingleMessage(User user, Addressee addressee, MessageTemplate template) {
-        Session emailSession = getSession(user);
         try {
+            Session emailSession = getSession(user);
             sendMessage(user, template, emailSession, addressee);
             return true;
         } catch (MessagingException exp) {

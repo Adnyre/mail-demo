@@ -36,6 +36,12 @@ public class AddresseeServiceImpl implements AddresseeService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public List<Addressee> getByEmails(Set<String> emails) {
+        return addresseeDao.findByEmailIn(emails);
+    }
+
+    @Override
     @Transactional
     public Addressee save(AddresseeDto dto) {
         Assert.isNull(dto.getId(), "Can save only new entities");
@@ -72,7 +78,13 @@ public class AddresseeServiceImpl implements AddresseeService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Addressee> selectAddresseesForCampaign(long campaignId) {
-        return addresseeDao.selectAddresseesForCampaign(campaignId);
+    public List<Addressee> selectNewAddresseesForCampaign(long campaignId) {
+        return addresseeDao.selectNewAddresseesForCampaign(campaignId);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Addressee> selectAllAddresseesForCampaign(long campaignId) {
+        return addresseeDao.selectAllAddresseesForCampaign(campaignId);
     }
 }

@@ -4,11 +4,14 @@ import adnyre.maildemo.dto.AddresseeDto;
 import adnyre.maildemo.model.Addressee;
 
 import java.util.List;
+import java.util.Set;
 
 public interface AddresseeService {
     Addressee get(long id);
 
     Addressee getByEmail(String email);
+
+    List<Addressee> getByEmails(Set<String> emails);
 
     Addressee save(AddresseeDto dto);
 
@@ -16,5 +19,7 @@ public interface AddresseeService {
 
     void delete(long id);
 
-    List<Addressee> selectAddresseesForCampaign(long campaignId);
+    List<Addressee> selectNewAddresseesForCampaign(long campaignId);
+
+    List<Addressee> selectAllAddresseesForCampaign(long campaignId);
 }

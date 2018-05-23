@@ -14,7 +14,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
 import javax.transaction.Transactional;
-import java.util.List;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -34,12 +36,54 @@ public class ITAddresseeDao {
 
     @Test
     @DatabaseSetup("classpath:sampleData.xml")
-    public void testSelectAddresseesForCampaign() throws Exception {
-        List<Addressee> addressees = addresseeDao.selectAddresseesForCampaign(5L);
+    public void testSelectNewAddresseesForCampaign() throws Exception {
+        List<Addressee> addressees = addresseeDao.selectNewAddresseesForCampaign(5L);
         assertEquals(1, addressees.size());
         Addressee addressee = addressees.get(0);
         assertTrue(addressee.getId() == 1
                 && addressee.getFirstName().equals("Tom")
                 && addressee.getLastName().equals("Turner"));
+    }
+
+    @Test
+    @DatabaseSetup("classpath:sampleData.xml")
+    public void testSelectAllAddresseesForCampaign() throws Exception {
+        List<Addressee> addressees = addresseeDao.selectAllAddresseesForCampaign(5L);
+        assertEquals(2, addressees.size());
+        Map<Long, Addressee> addresseeMap = getMap(addressees, Addressee::getId);
+
+        Addressee addressee1 = addresseeMap.get(1L);
+        assertTrue(addressee1.getFirstName().equals("Tom")
+                && addressee1.getLastName().equals("Turner")
+                && addressee1.getEmail().equals("tom@example.com"));
+
+        Addressee addressee2 = addresseeMap.get(4L);
+        assertTrue(addressee2.getFirstName().equals("Gabriela")
+                && addressee2.getLastName().equals("Gutierrez")
+                && addressee2.getEmail().equals("gabriela@example.com"));
+    }
+
+    @Test
+    @DatabaseSetup("classpath:sampleData.xml")
+    public void testFindByEmailIn() throws Exception {
+        Set<String> addresses = new HashSet<>();
+        addresses.addAll(Arrays.asList("tom@example.com", "patricia@example.com", "xabier@example.com"));
+        List<Addressee> addressees = addresseeDao.findByEmailIn(addresses);
+        assertEquals(2, addressees.size());
+        Map<Long, Addressee> addresseeMap = getMap(addressees, Addressee::getId);
+        Addressee addressee1 = addresseeMap.get(1L);
+        assertTrue(addressee1.getFirstName().equals("Tom")
+                && addressee1.getLastName().equals("Turner")
+                && addressee1.getEmail().equals("tom@example.com")
+        );
+        Addressee addressee2 = addresseeMap.get(3L);
+        assertTrue(addressee2.getFirstName().equals("Patricia")
+                && addressee2.getLastName().equals("Perez")
+                && addressee2.getEmail().equals("patricia@example.com")
+        );
+    }
+
+    private <K, V> Map<K, V> getMap(List<V> list, Function<V, K> mapper) {
+        return list.stream().collect(Collectors.toMap(mapper, Function.identity()));
     }
 }
