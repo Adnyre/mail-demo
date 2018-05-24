@@ -32,10 +32,8 @@ public class KeywordServiceImpl implements KeywordService {
             if (keywordMap.containsKey(x)) {
                 keywords.add(keywordMap.get(x));
             } else {
-                Keyword keyword = keywordDao.save(new Keyword(x));
+                Keyword keyword = new Keyword(x);
                 keywords.add(keyword);
-
-                // TODO add to parent entity
             }
         });
         return keywords;

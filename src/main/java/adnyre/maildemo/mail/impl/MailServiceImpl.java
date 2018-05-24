@@ -27,6 +27,7 @@ import static java.time.temporal.ChronoUnit.WEEKS;
 public class MailServiceImpl implements MailService {
 
     private static final Flags CUSTOM_FLAG = new Flags("maildemo");
+
     private int smtpPort = 587;
     private int imapPort = 993;
     private boolean secure = true;

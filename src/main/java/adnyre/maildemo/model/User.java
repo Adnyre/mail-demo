@@ -44,7 +44,7 @@ import static adnyre.maildemo.model.User.USER_STATS_MAPPING;
                         "   keyword" +
                         "     ON ck.keyword_id = keyword.id" +
                         "   LEFT JOIN" +
-                        "   addressee_keyword ak\n" +
+                        "   addressee_keyword ak" +
                         "     ON keyword.id = ak.keyword_id" +
                         "   LEFT JOIN" +
                         "   user_addressee ua" +
