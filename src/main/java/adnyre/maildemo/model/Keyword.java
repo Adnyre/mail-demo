@@ -38,16 +38,16 @@ public class Keyword implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
 
         Keyword keyword = (Keyword) o;
 
+        if (id != keyword.id) return false;
         return name != null ? name.equals(keyword.name) : keyword.name == null;
     }
 
     @Override
     public int hashCode() {
-        int result = super.hashCode();
+        int result = (int) (id ^ (id >>> 32));
         result = 31 * result + (name != null ? name.hashCode() : 0);
         return result;
     }

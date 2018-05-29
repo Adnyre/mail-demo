@@ -27,17 +27,17 @@ public class MessageTemplate implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
 
         MessageTemplate template1 = (MessageTemplate) o;
 
+        if (id != template1.id) return false;
         if (subject != null ? !subject.equals(template1.subject) : template1.subject != null) return false;
         return template != null ? template.equals(template1.template) : template1.template == null;
     }
 
     @Override
     public int hashCode() {
-        int result = super.hashCode();
+        int result = (int) (id ^ (id >>> 32));
         result = 31 * result + (subject != null ? subject.hashCode() : 0);
         result = 31 * result + (template != null ? template.hashCode() : 0);
         return result;

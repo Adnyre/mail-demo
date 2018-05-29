@@ -2,7 +2,6 @@ package adnyre.maildemo.dao;
 
 import adnyre.maildemo.config.TestDbConfig;
 import adnyre.maildemo.dto.UserStatsView;
-import adnyre.maildemo.model.User;
 import com.github.springtestdbunit.TransactionDbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.github.springtestdbunit.annotation.DbUnitConfiguration;
@@ -37,16 +36,6 @@ public class ITUserDao {
 
     @Autowired
     private UserDao userDao;
-
-    @Test
-    @DatabaseSetup("classpath:sampleData.xml")
-    public void testFind() throws Exception {
-        User user = userDao.findOne(1L);
-        assertTrue(
-                user.getId() == 1L
-                        && user.getName().equals("Bob Brown")
-                        && user.getEmail().equals("bob@example.com"));
-    }
 
     @Test
     @DatabaseSetup("classpath:sampleData.xml")

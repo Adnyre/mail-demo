@@ -81,10 +81,10 @@ public class Campaign implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
 
         Campaign campaign = (Campaign) o;
 
+        if (id != campaign.id) return false;
         if (name != null ? !name.equals(campaign.name) : campaign.name != null) return false;
         if (keywords != null ? !keywords.equals(campaign.keywords) : campaign.keywords != null) return false;
         return messageTemplate != null ? messageTemplate.equals(campaign.messageTemplate) : campaign.messageTemplate == null;
@@ -92,7 +92,7 @@ public class Campaign implements Serializable {
 
     @Override
     public int hashCode() {
-        int result = super.hashCode();
+        int result = (int) (id ^ (id >>> 32));
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (keywords != null ? keywords.hashCode() : 0);
         result = 31 * result + (messageTemplate != null ? messageTemplate.hashCode() : 0);
