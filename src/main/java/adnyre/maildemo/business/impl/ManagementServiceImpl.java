@@ -15,10 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -39,7 +36,7 @@ public class ManagementServiceImpl implements ManagementService {
     public void sendToNewAddressees(long campaignId) {
         Campaign campaign = campaignService.get(campaignId);
         Assert.notNull(campaign, "Can't find campaign by id: " + campaignId);
-        List<Addressee> addressees = addresseeService.selectNewAddresseesForCampaign(campaignId);
+        Set<Addressee> addressees = addresseeService.selectNewAddresseesForCampaign(campaignId);
         log.debug("Got {} new addressees for campaign id: {}", addressees.size(), campaignId);
         sendEmails(campaign, addressees);
     }
@@ -50,7 +47,7 @@ public class ManagementServiceImpl implements ManagementService {
     public void sendToAll(long campaignId) {
         Campaign campaign = campaignService.get(campaignId);
         Assert.notNull(campaign, "Can't find campaign by id: " + campaignId);
-        List<Addressee> addressees = addresseeService.selectAllAddresseesForCampaign(campaignId);
+        Set<Addressee> addressees = addresseeService.selectAllAddresseesForCampaign(campaignId);
         log.debug("Got {} addressees for campaign id: {}", addressees.size(), campaignId);
         sendEmails(campaign, addressees);
     }

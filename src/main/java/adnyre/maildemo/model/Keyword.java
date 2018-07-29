@@ -6,7 +6,9 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -22,7 +24,7 @@ public class Keyword implements Serializable {
 
     @JsonManagedReference
     @ManyToMany(mappedBy = "keywords")
-    private Set<Campaign> campaigns = new HashSet<>();
+    private List<Campaign> campaigns = new ArrayList<>();
 
     @JsonManagedReference
     @ManyToMany(mappedBy = "keywords")
@@ -41,15 +43,12 @@ public class Keyword implements Serializable {
 
         Keyword keyword = (Keyword) o;
 
-        if (id != keyword.id) return false;
         return name != null ? name.equals(keyword.name) : keyword.name == null;
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        return result;
+        return name != null ? name.hashCode() : 0;
     }
 
     @Override

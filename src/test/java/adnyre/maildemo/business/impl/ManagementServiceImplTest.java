@@ -74,7 +74,8 @@ public class ManagementServiceImplTest {
     @Test
     public void sendToNewAddresseesTest() {
         when(campaignService.get(1)).thenReturn(campaign);
-        when(addresseeService.selectNewAddresseesForCampaign(1)).thenReturn(asList(addressee3, addressee4));
+        when(addresseeService.selectNewAddresseesForCampaign(1))
+                .thenReturn(new HashSet<>(asList(addressee3, addressee4)));
         when(mailService.sendSingleMessage(user, addressee3, template)).thenReturn(true);
         when(mailService.sendSingleMessage(user, addressee4, template)).thenReturn(false);
 
@@ -93,7 +94,7 @@ public class ManagementServiceImplTest {
     public void sendToAllTest() {
         when(campaignService.get(1)).thenReturn(campaign);
         when(addresseeService.selectAllAddresseesForCampaign(1))
-                .thenReturn(asList(addressee1, addressee2, addressee3, addressee4));
+                .thenReturn(new HashSet<>(asList(addressee1, addressee2, addressee3, addressee4)));
         when(mailService.sendSingleMessage(user, addressee1, template)).thenReturn(true);
         when(mailService.sendSingleMessage(user, addressee2, template)).thenReturn(false);
         when(mailService.sendSingleMessage(user, addressee3, template)).thenReturn(true);

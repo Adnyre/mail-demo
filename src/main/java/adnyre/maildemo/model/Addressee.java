@@ -70,21 +70,12 @@ public class Addressee implements Serializable {
 
         Addressee addressee = (Addressee) o;
 
-        if (id != addressee.id) return false;
-        if (firstName != null ? !firstName.equals(addressee.firstName) : addressee.firstName != null) return false;
-        if (lastName != null ? !lastName.equals(addressee.lastName) : addressee.lastName != null) return false;
-        if (email != null ? !email.equals(addressee.email) : addressee.email != null) return false;
-        return keywords != null ? keywords.equals(addressee.keywords) : addressee.keywords == null;
+        return email != null ? email.equals(addressee.email) : addressee.email == null;
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
-        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
-        result = 31 * result + (email != null ? email.hashCode() : 0);
-        result = 31 * result + (keywords != null ? keywords.hashCode() : 0);
-        return result;
+        return email != null ? email.hashCode() : 0;
     }
 
     @Override

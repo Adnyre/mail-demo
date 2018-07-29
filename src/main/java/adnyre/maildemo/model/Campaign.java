@@ -78,35 +78,11 @@ public class Campaign implements Serializable {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Campaign campaign = (Campaign) o;
-
-        if (id != campaign.id) return false;
-        if (name != null ? !name.equals(campaign.name) : campaign.name != null) return false;
-        if (keywords != null ? !keywords.equals(campaign.keywords) : campaign.keywords != null) return false;
-        return messageTemplate != null ? messageTemplate.equals(campaign.messageTemplate) : campaign.messageTemplate == null;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (keywords != null ? keywords.hashCode() : 0);
-        result = 31 * result + (messageTemplate != null ? messageTemplate.hashCode() : 0);
-        return result;
-    }
-
-    @Override
     public String toString() {
         return "Campaign{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", user=" + user.getName() +
-                ", keywords=" + keywords +
-                ", messageTemplate=" + messageTemplate +
                 '}';
     }
 }

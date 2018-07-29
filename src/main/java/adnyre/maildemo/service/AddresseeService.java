@@ -19,7 +19,7 @@ public interface AddresseeService {
 
     void delete(long id);
 
-    List<Addressee> selectNewAddresseesForCampaign(long campaignId);
+    Set<Addressee> selectNewAddresseesForCampaign(long campaignId);
 
-    List<Addressee> selectAllAddresseesForCampaign(long campaignId);
+    Set<Addressee> selectAllAddresseesForCampaign(long campaignId);
 }

@@ -25,7 +25,8 @@ CREATE TABLE campaign (
 CREATE TABLE keyword (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
   name VARCHAR(255),
-  INDEX (name)
+  INDEX (name),
+  CONSTRAINT uq_keyword_name UNIQUE (name)
 );
 
 CREATE TABLE addressee (
@@ -33,7 +34,8 @@ CREATE TABLE addressee (
   first_name VARCHAR(255),
   last_name VARCHAR(255),
   email VARCHAR(255),
-  INDEX (email)
+  INDEX (email),
+  CONSTRAINT uq_addressee_email UNIQUE (email)
 );
 
 CREATE TABLE addressee_keyword (

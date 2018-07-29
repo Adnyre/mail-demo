@@ -7,7 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import static adnyre.maildemo.model.Addressee.SELECT_ALL_ADDRESSEES_FOR_CAMPAIGN;
 import static adnyre.maildemo.model.Addressee.SELECT_NEW_ADDRESSEES_FOR_CAMPAIGN;
@@ -20,16 +21,16 @@ public class AddresseeDaoImpl implements CustomAddresseeDao {
     private EntityManager entityManager;
 
     @Override
-    public List<Addressee> selectNewAddresseesForCampaign(long campaignId) {
+    public Set<Addressee> selectNewAddresseesForCampaign(long campaignId) {
         TypedQuery<Addressee> query = entityManager.createNamedQuery(SELECT_NEW_ADDRESSEES_FOR_CAMPAIGN, Addressee.class);
         query.setParameter("id", campaignId);
-        return query.getResultList();
+        return new HashSet<>(query.getResultList());
     }
 
     @Override
-    public List<Addressee> selectAllAddresseesForCampaign(long campaignId) {
+    public Set<Addressee> selectAllAddresseesForCampaign(long campaignId) {
         TypedQuery<Addressee> query = entityManager.createNamedQuery(SELECT_ALL_ADDRESSEES_FOR_CAMPAIGN, Addressee.class);
         query.setParameter("id", campaignId);
-        return query.getResultList();
+        return new HashSet<>(query.getResultList());
     }
 }

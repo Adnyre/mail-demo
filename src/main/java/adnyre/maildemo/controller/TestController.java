@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -36,7 +37,7 @@ class TestController {
     @GetMapping("/addresses")
     @ResponseBody
     public List<AddresseeDto> getAddressesForCampaign(@RequestParam long campaignId) {
-        List<Addressee> addressees = addresseeDao.selectNewAddresseesForCampaign(campaignId);
+        Set<Addressee> addressees = addresseeDao.selectNewAddresseesForCampaign(campaignId);
         log.debug("Found {} addresses", addressees.size());
         return addressees.stream()
                 .map(AddresseeDto::fromEntity)

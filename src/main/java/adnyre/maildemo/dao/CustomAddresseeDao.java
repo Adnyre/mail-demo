@@ -2,10 +2,10 @@ package adnyre.maildemo.dao;
 
 import adnyre.maildemo.model.Addressee;
 
-import java.util.List;
+import java.util.Set;
 
 public interface CustomAddresseeDao {
-    List<Addressee> selectNewAddresseesForCampaign(long campaignId);
+    Set<Addressee> selectNewAddresseesForCampaign(long campaignId);
 
-    List<Addressee> selectAllAddresseesForCampaign(long campaignId);
+    Set<Addressee> selectAllAddresseesForCampaign(long campaignId);
 }

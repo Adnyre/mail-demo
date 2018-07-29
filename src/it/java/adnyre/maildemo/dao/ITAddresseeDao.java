@@ -37,9 +37,9 @@ public class ITAddresseeDao {
     @Test
     @DatabaseSetup("classpath:sampleData.xml")
     public void testSelectNewAddresseesForCampaign() throws Exception {
-        List<Addressee> addressees = addresseeDao.selectNewAddresseesForCampaign(5L);
+        Set<Addressee> addressees = addresseeDao.selectNewAddresseesForCampaign(5L);
         assertEquals(1, addressees.size());
-        Addressee addressee = addressees.get(0);
+        Addressee addressee = addressees.stream().findFirst().get();
         assertTrue(addressee.getId() == 1
                 && addressee.getFirstName().equals("Tom")
                 && addressee.getLastName().equals("Turner"));
@@ -48,7 +48,7 @@ public class ITAddresseeDao {
     @Test
     @DatabaseSetup("classpath:sampleData.xml")
     public void testSelectAllAddresseesForCampaign() throws Exception {
-        List<Addressee> addressees = addresseeDao.selectAllAddresseesForCampaign(5L);
+        Set<Addressee> addressees = addresseeDao.selectAllAddresseesForCampaign(5L);
         assertEquals(2, addressees.size());
         Map<Long, Addressee> addresseeMap = getMap(addressees, Addressee::getId);
 
@@ -83,7 +83,7 @@ public class ITAddresseeDao {
         );
     }
 
-    private <K, V> Map<K, V> getMap(List<V> list, Function<V, K> mapper) {
+    private static <K, V> Map<K, V> getMap(Collection<V> list, Function<V, K> mapper) {
         return list.stream().collect(Collectors.toMap(mapper, Function.identity()));
     }
 }

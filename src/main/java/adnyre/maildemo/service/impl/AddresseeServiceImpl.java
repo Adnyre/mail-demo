@@ -45,10 +45,12 @@ public class AddresseeServiceImpl implements AddresseeService {
     @Transactional
     public Addressee save(AddresseeDto dto) {
         Assert.isNull(dto.getId(), "Can save only new entities");
+        Addressee existentEntity = getByEmail(dto.getEmail());
+        Assert.isNull(existentEntity, "Addressee with this email already exists");
         Addressee entity = new Addressee();
+        entity.setEmail(dto.getEmail());
         entity.setFirstName(dto.getFirstName());
         entity.setLastName(dto.getLastName());
-        entity.setEmail(dto.getEmail());
         List<Keyword> keywords = keywordService.convertToKeywords(dto.getKeywords());
         entity.setKeywords(new HashSet<>(keywords));
         addresseeDao.save(entity);
@@ -62,9 +64,9 @@ public class AddresseeServiceImpl implements AddresseeService {
         Addressee entity = addresseeDao.findOne(dto.getId());
         Assert.notNull(entity, "Can't find addressee by id: " + dto.getId());
         Assert.isTrue(dto.getId().equals(entity.getId()), "Dto and entity ids are different");
+        Assert.isTrue(Objects.equals(dto.getEmail(), entity.getEmail()), "Email of an addressee can't be changed");
         entity.setFirstName(dto.getFirstName());
         entity.setLastName(dto.getLastName());
-        entity.setEmail(dto.getEmail());
         List<Keyword> keywords = keywordService.convertToKeywords(dto.getKeywords());
         entity.setKeywords(new HashSet<>(keywords));
         return entity;
@@ -78,13 +80,13 @@ public class AddresseeServiceImpl implements AddresseeService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Addressee> selectNewAddresseesForCampaign(long campaignId) {
+    public Set<Addressee> selectNewAddresseesForCampaign(long campaignId) {
         return addresseeDao.selectNewAddresseesForCampaign(campaignId);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<Addressee> selectAllAddresseesForCampaign(long campaignId) {
+    public Set<Addressee> selectAllAddresseesForCampaign(long campaignId) {
         return addresseeDao.selectAllAddresseesForCampaign(campaignId);
     }
 }
