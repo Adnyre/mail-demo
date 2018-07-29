@@ -81,8 +81,6 @@ public class ManagementServiceImplTest {
 
         managementService.sendToNewAddressees(1);
 
-        verify(campaignService).get(1);
-        verify(addresseeService).selectNewAddresseesForCampaign(1);
         verify(mailService).sendSingleMessage(user, addressee3, template);
         verify(mailService).sendSingleMessage(user, addressee4, template);
         Set<Addressee> sentAddressees = campaign.getAddressees();
@@ -102,8 +100,6 @@ public class ManagementServiceImplTest {
 
         managementService.sendToAll(1);
 
-        verify(campaignService).get(1);
-        verify(addresseeService).selectAllAddresseesForCampaign(1);
         verify(mailService).sendSingleMessage(user, addressee1, template);
         verify(mailService).sendSingleMessage(user, addressee2, template);
         verify(mailService).sendSingleMessage(user, addressee3, template);
@@ -119,7 +115,6 @@ public class ManagementServiceImplTest {
 
         managementService.resend(1);
 
-        verify(campaignService).get(1);
         verify(mailService).sendSingleMessage(user, addressee1, template);
         verify(mailService).sendSingleMessage(user, addressee2, template);
         Set<Addressee> sentAddressees = campaign.getAddressees();
@@ -136,9 +131,6 @@ public class ManagementServiceImplTest {
 
         managementService.checkEmail(1);
 
-        verify(userService).get(1);
-        verify(mailService).checkEmail(user);
-        verify(addresseeService).getByEmails(new HashSet<>(emails));
         assertTrue(user.getAddressees().containsAll(asList(addressee1, addressee4)));
     }
 }
